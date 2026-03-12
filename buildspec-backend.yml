@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+  pre_build:
+    commands:
+      - cd backend
+      - npm install
+  build:
+    commands:
+      - echo "No backend build step"
+  post_build:
+    commands:
+      - cd ..
+      - echo "Preparing artifacts for CodeDeploy"
+
+artifacts:
+  files:
+    - appspec.yml
+    - ecosystem.config.js
+    - scripts/**/*
+    - backend/**/*

@@ -1,20 +1,27 @@
 version: 0.2
 
-phases: 
-    install:
-        runtime-versions:
-            nodejs: latest
-        commands:
-            - echo "installing something"
-    pre_build:
-        commands: 
-            - echo "we are in the pre build phase"
-    build:
-        commands:
-            - echo "we are in the build block"
-            - echo "we will run some tests"
-            - grep -Fq "Congratulations" index.html
-    post_build:
-        commands:
-            - echo "we are in the post build phase"
-            
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npm install -g npm@10
+  pre_build:
+    commands:
+      - npm ci
+  build:
+    commands:
+      - npm run lint --if-present
+      - npm run build
+  post_build:
+    commands:
+      - echo "Build completed on $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+artifacts:
+  base-directory: .next
+  files:
+    - '**/*'
+
+cache:
+  paths:
+    - node_modules/**/*

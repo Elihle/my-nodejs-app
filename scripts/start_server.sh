@@ -7,6 +7,9 @@ APP_NAME=my-nodejs-backend
 cd "$APP_DIR"
 
 # Start (or restart) the app with PM2
+export PORT="${PORT:-80}"
+export NODE_ENV=production
+
 if pm2 list | grep -q "$APP_NAME"; then
   pm2 restart "$APP_NAME" --update-env
 else
